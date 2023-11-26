@@ -1,16 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import dayjs from "dayjs";
 import { Button, Form, Input, DatePicker, Select } from "antd";
+
+import { getUser, updateUser } from "../../../Api/Service/user.service";
 
 function UpdateInforUser() {
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState("vertical");
+  const [userType, setUserType] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [infoForm, setInfoForm] = useState({});
   const [originInfoForm, setOriginInfoForm] = useState({});
 
+  const getInformation = () => {
+    getUser("user/kiet@gmail.com")
+      .then((res) => {
+        setInfoForm({
+          id: res.data.id,
+          name: res.data.name,
+          phone: res.data.phone,
+          dob: res.data.dob,
+          gender: res.data.gender,
+          role: res.data.role.role,
+          password: "091002",
+        });
+
+        setOriginInfoForm({
+          id: res.data.id,
+          name: res.data.name,
+          phone: res.data.phone,
+          dob: res.data.dob,
+          gender: res.data.gender,
+          role: res.data.role.role,
+          password: "091002",
+        });
+      })
+      .catch((error) => {
+        error;
+      });
+  };
+
   const onFormLayoutChange = ({ layout }) => {
     setFormLayout(layout);
+  };
+
+  const handleChangeDob = (date, dateString) => {
+    date;
+    setInfoForm({
+      ...infoForm,
+      dob: dateString,
+    });
   };
 
   const handleCancel = () => {
@@ -23,6 +63,30 @@ function UpdateInforUser() {
     });
     setIsUpdating(false);
   };
+
+  const getFormatedDob = (dob) => {
+    const firstIndex = dob.indexOf("-");
+    const secondIndex = dob.lastIndexOf("-");
+    const day = dob.slice(secondIndex + 1);
+    const month = dob.slice(firstIndex + 1, secondIndex);
+    const year = dob.slice(0, firstIndex);
+    return day + "/" + month + "/" + year;
+  };
+
+  const handleUpdate = () => {
+    const data = {
+      ...infoForm,
+      dob: getFormatedDob(infoForm.dob),
+    };
+
+    updateUser("user", data).then(() => {
+      setIsUpdating(false);
+    });
+  };
+
+  useEffect(() => {
+    getInformation();
+  }, []);
 
   const formItemLayout =
     formLayout === "horizontal"
@@ -83,6 +147,7 @@ function UpdateInforUser() {
               ? {
                   cursor: "default",
                   backgroundColor: "#fff",
+                  color: "#333333",
                 }
               : {}
           }
@@ -99,6 +164,7 @@ function UpdateInforUser() {
               ? {
                   cursor: "default",
                   backgroundColor: "#fff",
+                  color: "#333333",
                 }
               : {}
           }
@@ -115,15 +181,17 @@ function UpdateInforUser() {
                 ? {
                     cursor: "default",
                     backgroundColor: "#fff",
+                    color: "#333333",
                   }
                 : {}
             }
           />
         ) : (
           <DatePicker
-            defaultValue={dayjs("01/01/2015", "DD/MM/YYYY")}
-            format="DD/MM/YYYY"
+            defaultValue={dayjs(infoForm.dob, "YYYY-MM-DD")}
+            format="YYYY-MM-DD"
             style={{ width: "100%" }}
+            onChange={handleChangeDob}
           />
         )}
       </Form.Item>
@@ -132,13 +200,14 @@ function UpdateInforUser() {
         {!isUpdating ? (
           <Input
             placeholder=""
-            value={infoForm.gender}
+            value={infoForm.gender ? "Nam" : "Nữ"}
             disabled={!isUpdating}
             style={
               !isUpdating
                 ? {
                     cursor: "default",
                     backgroundColor: "#fff",
+                    color: "#333333",
                   }
                 : {}
             }
@@ -169,7 +238,14 @@ function UpdateInforUser() {
       </Form.Item>
       {isUpdating && (
         <Form.Item {...buttonItemLayout}>
-          <Button type="primary" style={{ marginRight: "16px" }}>
+          <Button
+            type="primary"
+            style={{ marginRight: "16px" }}
+            onClick={() => {
+              handleUpdate();
+              console.log(infoForm);
+            }}
+          >
             Cập nhật
           </Button>
           <Button type="primary" ghost onClick={() => handleCancel()}>
