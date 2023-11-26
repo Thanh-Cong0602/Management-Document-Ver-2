@@ -13,11 +13,10 @@ function LoginScreen() {
   const navigate = useNavigate();
   const onFinish = (values) => {
     const body = {
-      email: values.username,
+      email: values.email,
       password: values.password,
     };
     login("user/login", body).then((res) => {
-      console.log(res);
       dispatch(setDataUser(res.data.data));
     });
   };
@@ -51,12 +50,12 @@ function LoginScreen() {
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="email"
+          name="email"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Please input your email!",
             },
           ]}
         >

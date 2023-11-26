@@ -1,6 +1,7 @@
 /** @format */
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import "./RegisterScreen.css";
+import { register } from "../../Api/Service/user.service";
 const { Option } = Select;
 const config = {
   rules: [
@@ -13,14 +14,27 @@ const config = {
 };
 
 const onFinish = (values) => {
+  const body = {
+    email: values.email,
+    password: values.password,
+    name: values.name,
+    phone: "0963987948",
+    dob: values["date-picker"].format("DD/MM/YYYY"),
+    gender: true,
+    role: "user",
+  };
+  register("user/register", body).then((res) => {
+    console.log(res);
+  });
   console.log("Success:", values);
+  console.log("Success:", body);
 };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const RegisterScreen = () => (
-  <div>
-    <p className="title">Đăng ký tài khoản</p>
+  <div style={{ textAlign: "center" }}>
+    <p className="title">Register Account</p>
     <Form
       name="basic"
       labelCol={{
