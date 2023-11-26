@@ -8,3 +8,10 @@ export const setDataUser = (dataUser) => {
     payload: dataUser,
   };
 };
+
+export const setLoggedIn = (loggedIn) => {
+  return {
+    type: userConstants.SET_LOGGED_IN,
+    payload: loggedIn,
+  };
+};

@@ -7,6 +7,7 @@ import LoginScreen from "./Components/LoginScreen/LoginScreen";
 import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
 import MyFooter from "./Components/MyFooter/MyFooter";
 import MyHeader from "./Components/MyHeader/MyHeader";
+import Homepage from "./Components/User/Homepage/Homepage";
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
         />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/user/homepage" element={<Homepage />} />
       </Routes>
     </div>
   );

@@ -3,7 +3,7 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Api/Service/user.service";
-import { setDataUser } from "../../Redux/_action/user.action";
+import { setDataUser, setLoggedIn } from "../../Redux/_action/user.action";
 import { useDispatch } from "react-redux";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -17,7 +17,9 @@ function LoginScreen() {
       password: values.password,
     };
     login("user/login", body).then((res) => {
+      dispatch(setLoggedIn(true));
       dispatch(setDataUser(res.data.data));
+      navigate("/user/homepage");
     });
   };
   return (
