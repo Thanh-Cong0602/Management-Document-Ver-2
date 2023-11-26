@@ -1,8 +1,9 @@
+/** @format */
+
 import { useState, useEffect } from "react";
-import axios from "axios";
 import dayjs from "dayjs";
 import { Button, Form, Input, DatePicker, Select, Modal } from "antd";
-
+import { useSelector } from "react-redux";
 import { getUser, updateUser } from "../../../Api/Service/user.service";
 
 function UpdateInforUser() {
@@ -13,9 +14,10 @@ function UpdateInforUser() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [infoForm, setInfoForm] = useState({});
   const [originInfoForm, setOriginInfoForm] = useState({});
-
+  const dataUser = useSelector((state) => state.userReducer.dataUser);
+  console.log(dataUser);
   const getInformation = () => {
-    getUser("user/kiet@gmail.com")
+    getUser(`user/${dataUser}`)
       .then((res) => {
         setInfoForm({
           id: res.data.id,
@@ -136,9 +138,7 @@ function UpdateInforUser() {
           justifyContent: "space-between",
         }}
       >
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-          Thông tin cá nhân
-        </div>
+        <div style={{ fontSize: "20px", fontWeight: "bold" }}>Thông tin cá nhân</div>
         {!isUpdating && (
           <Button type="primary" onClick={() => setIsUpdating(true)}>
             Cập nhật

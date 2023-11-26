@@ -19,12 +19,9 @@ function LoginScreen() {
     };
     login("user/login", body)
       .then((res) => {
+        console.log(res.data.email);
         dispatch(setLoggedIn(true));
-        dispatch(setDataUser(res.data.data));
-        messageApi.open({
-          type: "success",
-          content: "Login Successfully!!!",
-        });
+        dispatch(setDataUser(res.data.email));
         navigate("/user/homepage");
       })
       .catch((err) => {
