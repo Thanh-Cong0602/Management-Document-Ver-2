@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-function App() {
+function DocumentList() {
   const handleDelete = (id) => {
     console.log("Deleting document with ID:", id);
   };
@@ -66,4 +66,4 @@ function App() {
   );
 }
 
-export default App
+export default DocumentList
