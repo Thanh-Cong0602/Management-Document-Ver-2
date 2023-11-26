@@ -1,12 +1,16 @@
-import LoginScreen from './Components/LoginScreen/LoginScreen'
-import './App.css'
+
+import "./App.css";
+
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+
 function App() {
 
   return (
-    <div className="app">
-        <LoginScreen />
-    </div>
+    <>
+      <UpdateInforUser />
+    </>
   );
+
 }
 
-export default App
+export default App;
