@@ -102,7 +102,7 @@ function LoginScreen() {
             justifyContent: "center",
           }}
         >
-          Don't have an account? <Link to="/register"> Register</Link>
+          <p>Dont have an account?</p> <Link to="/register"> Register</Link>
         </div>
       </Form>
     </div>
