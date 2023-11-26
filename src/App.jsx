@@ -1,13 +1,13 @@
 // import { useState } from 'react'
 
 import './App.css'
-import Upload from './Components/User/UploadFile/UploadFile'
+import UpdateFile from './Components/User/UpdateFile/UpdateFile'
 function App() {
-  // const [count, setCount] = useState(0)
+// const [count, setCount] = useState(0)
 
   return (
     <>
-      <Upload/>
+      <UpdateFile  id={1}/>
     </>
   )
 }

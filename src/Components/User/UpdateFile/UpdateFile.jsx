@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
 import "./Form.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,14 +8,35 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
 
-function Upload() {
-
+function UpdateFile(id) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false)
+
+
+
+  const [fetchedData, setFetchedData] = useState('');
+
+  useEffect(() => {
+    // fetch data
+     fetch(
+         `http://localhost/document/${id.id}/latest`,
+        )
+      .then(res =>
+        
+         res.json())
+      .then(data => {
+        console.log(data)
+        setFetchedData(data)
+      }
+      ).catch(err => console.log(err));
+
+    }
+
+  , []);
   const inputChangeHandler = (setValue, event) => {
     setValue(event.target.value);
   };
@@ -60,7 +81,7 @@ function Upload() {
     formData.append("content", content);
   
     fetch("http://localhost/document", {
-      method: "POST",
+      method: "PUT",
       body: formData,
 
     })
@@ -91,13 +112,14 @@ function Upload() {
      
       <div className="upload-form">
         <form className="form-style" encType="multipart/form-data">
-          <h4>Upload Document </h4> <br />
+          <h4>Update Document </h4> <br />
           <input
             name="name"
             type="text"
             className="form-control"
             placeholder="Name"
             onChange={(e) => inputChangeHandler(setName, e)}
+            value={fetchedData.name}
           />{" "}
           <br />
           <textarea
@@ -107,6 +129,8 @@ function Upload() {
             cols="50"
             placeholder="Description"
             onChange={(e) => inputChangeHandler(setDescription, e)}
+            value={fetchedData.description}
+
           ></textarea>{" "}
           <br />
           <input
@@ -128,4 +152,4 @@ function Upload() {
   );
 }
 
-export default Upload
+export default UpdateFile
