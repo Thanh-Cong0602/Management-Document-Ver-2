@@ -1,69 +1,34 @@
-import { useState, useEffect } from "react";
-import Table from 'react-bootstrap/Table';
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import axios from "axios";
+
+/** @format */
+
+import "./App.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import LoginScreen from "./Components/LoginScreen/LoginScreen";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
+import MyFooter from "./Components/MyFooter/MyFooter";
+import MyHeader from "./Components/MyHeader/MyHeader";
+import Homepage from "./Components/User/Homepage/Homepage";
 function App() {
-  const handleDelete = (id) => {
-    console.log("Deleting document with ID:", id);
-  };
-  
-  const [documents, setDocuments] = useState([]);
-  const sendData = {
-    "id": 1,
-    "password": "091002",
-    "name": "Tuan Kiet Update",
-    "phone": "0963987948",
-    "dob": "09/10/2002",
-    "role": "admin",
-    "gender": "true"
-  };
-  useEffect(() => {
-    axios.get("http://localhost:80/document?orderBy=name&pageSize=2", sendData).then(res => {
-      console.log(res);
-      setDocuments(res.data);
-    });
-  }, []);
- 
   return (
     <div>
-    <div className="documentlist" style={{margin : 'auto auto', transform: 'translateX(100%)'}}>
-    <Table striped bordered hover style={{textAlign: 'center'}}>
-      <thead>
-        <tr>
-          <th>File Name</th>
-          <th>Description</th>
-          <th>Owner</th>
-          <th>Access</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {documents.map((document, key) => (
-          <tr key={key}>
-            <td>{document.filename}</td>
-            <td>{document.description}</td>
-            <td>{document.name}</td>
-            <td><Link to={document.url} style={{textDecoration: 'none'}}>Click Here!</Link></td>
-            <td>
-              <Link to={`/documentlist/${document.id}`} style={{paddingRight: '5px'}}>
-                <Button variant="warning">Edit</Button>
-              </Link>
-              
-              <Button
-                variant="danger"
-                onClick={() => handleDelete(document.id) }
-              >
-                Delete
-              </Button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  </div>
-  </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <MyHeader />
+              <MyFooter />
+            </>
+          }
+        />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/user/homepage" element={<Homepage />} />
+      </Routes>
+    </div>
+
   );
 }
 
-export default App
+export default App;
