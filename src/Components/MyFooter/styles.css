@@ -1,0 +1,17 @@
+.slogan {
+  margin-top: 9%;
+  font-family: "Playfair Display", Serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.info {
+  margin: 0.5% 10%;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 500;
+}
+
+.headInfo {
+  font-weight: 700;
+  padding: 2%;
+}
