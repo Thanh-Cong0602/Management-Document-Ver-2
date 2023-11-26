@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
 function DocumentList() {
   const handleDelete = (id) => {
     console.log("Deleting document with ID:", id);
