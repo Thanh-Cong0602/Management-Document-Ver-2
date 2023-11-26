@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import { Button, Form, Input, DatePicker, Select } from "antd";
+import { Button, Form, Input, DatePicker, Select, Modal } from "antd";
 
 import { getUser, updateUser } from "../../../Api/Service/user.service";
 
 function UpdateInforUser() {
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState("vertical");
-  const [userType, setUserType] = useState("");
+  const [showNoti, setShowNoti] = useState(false);
+  const [updateFail, setUpdateFail] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [infoForm, setInfoForm] = useState({});
   const [originInfoForm, setOriginInfoForm] = useState({});
@@ -79,9 +80,16 @@ function UpdateInforUser() {
       dob: getFormatedDob(infoForm.dob),
     };
 
-    updateUser("user", data).then(() => {
-      setIsUpdating(false);
-    });
+    updateUser("user", data)
+      .then(() => {
+        setUpdateFail(false);
+        setShowNoti(true);
+      })
+      .catch((error) => {
+        error;
+        setUpdateFail(true);
+        setShowNoti(true);
+      });
   };
 
   useEffect(() => {
@@ -121,16 +129,18 @@ function UpdateInforUser() {
         maxWidth: formLayout === "inline" ? "none" : 600,
       }}
     >
-      <div style={{ display: "flex", marginBottom: "16px" }}>
+      <div
+        style={{
+          display: "flex",
+          marginBottom: "16px",
+          justifyContent: "space-between",
+        }}
+      >
         <div style={{ fontSize: "20px", fontWeight: "bold" }}>
           Thông tin cá nhân
         </div>
         {!isUpdating && (
-          <Button
-            type="primary"
-            style={{ marginRight: "16px" }}
-            onClick={() => setIsUpdating(true)}
-          >
+          <Button type="primary" onClick={() => setIsUpdating(true)}>
             Cập nhật
           </Button>
         )}
@@ -253,6 +263,37 @@ function UpdateInforUser() {
           </Button>
         </Form.Item>
       )}
+
+      <Modal
+        title="Thông báo"
+        open={showNoti}
+        onOk={() => {
+          setShowNoti(false);
+          setIsUpdating(false);
+        }}
+        onCancel={() => {
+          setShowNoti(false);
+          setIsUpdating(false);
+        }}
+      >
+        {updateFail ? (
+          <p
+            style={{
+              fontSize: "20px",
+            }}
+          >
+            Cập nhật thông tin thất bại
+          </p>
+        ) : (
+          <p
+            style={{
+              fontSize: "20px",
+            }}
+          >
+            Cập nhật thông tin thành công
+          </p>
+        )}
+      </Modal>
     </Form>
   );
 }
