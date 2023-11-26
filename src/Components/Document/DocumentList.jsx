@@ -38,11 +38,11 @@ const columns = [
       <div
         type="button"
         style={{ color: "red" }}
-        // onClick={() => {
-        //   axios.delete(`http://localhost/document/${record.id}`).then(() => {
-        //     window.location.reload();
-        //   });
-        // }}
+        onClick={() => {
+          axios.delete(`http://localhost/document/${record.id}`).then(() => {
+            window.location.reload();
+          });
+        }}
       >
         <DeleteOutlined />
       </div>
