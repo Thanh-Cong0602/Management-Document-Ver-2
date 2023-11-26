@@ -13,6 +13,6 @@ function App() {
       <UpdateInforUser />
     </>
   );
-}
+
 
 export default App;
