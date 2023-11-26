@@ -1,17 +1,29 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+/** @format */
+
 import "./App.css";
-
+import { Route, Routes, useNavigate } from "react-router-dom";
 import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
-
+import LoginScreen from "./Components/LoginScreen/LoginScreen";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
+import MyFooter from "./Components/MyFooter/MyFooter";
+import MyHeader from "./Components/MyHeader/MyHeader";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <UpdateInforUser />
-    </>
+    <div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <MyHeader />
+              <MyFooter />
+            </>
+          }
+        />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+      </Routes>
+    </div>
   );
 }
 
