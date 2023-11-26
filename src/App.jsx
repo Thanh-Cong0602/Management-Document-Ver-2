@@ -1,8 +1,17 @@
-import { useState } from "react";
-import MyFooter from "./Components/MyFooter/MyFooter";
 
+/** @format */
+
+import "./App.css";
+
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import LoginScreen from "./Components/LoginScreen/LoginScreen";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
 function App() {
-  return <MyFooter />;
+  return (
+    <>
+      <LoginScreen />
+    </>
+  );
 }
 
 export default App;
