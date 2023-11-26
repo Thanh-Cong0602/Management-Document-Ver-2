@@ -1,14 +1,15 @@
 /** @format */
 
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Api/Service/user.service";
 import { setDataUser, setLoggedIn } from "../../Redux/_action/user.action";
-import { useDispatch } from "react-redux";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 function LoginScreen() {
+  const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = (values) => {
@@ -16,98 +17,100 @@ function LoginScreen() {
       email: values.email,
       password: values.password,
     };
-    login("user/login", body).then((res) => {
-      dispatch(setLoggedIn(true));
-      dispatch(setDataUser(res.data.data));
-      navigate("/user/homepage");
-    });
+    login("user/login", body)
+      .then((res) => {
+        dispatch(setLoggedIn(true));
+        dispatch(setDataUser(res.data.data));
+        messageApi.open({
+          type: "success",
+          content: "Login Successfully!!!",
+        });
+        navigate("/user/homepage");
+      })
+      .catch((err) => {
+        const message = err.response.data.message;
+        messageApi.open({
+          type: "error",
+          content: message,
+        });
+      });
   };
   return (
-    <div
-      style={{
-        width: "497px",
-        height: "210px",
-        border: "2px solid black",
-        padding: "50px",
-        margin: "7vh auto auto",
-        borderRadius: "10px",
-      }}
-    >
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
+    <>
+      {contextHolder}
+      <div
         style={{
-          maxWidth: 600,
+          width: "497px",
+          height: "250px",
+          border: "2px solid black",
+          padding: "50px",
+          margin: "7vh auto auto",
+          borderRadius: "10px",
         }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
       >
-        <Form.Item
-          label="email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
+        <label style={{ fontSize: "40px", fontWeight: "bold" }}>Login</label>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
           wrapperCol={{
-            offset: 8,
             span: 16,
           }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Sign in
-          </Button>
-        </Form.Item>
-        <div
           style={{
-            display: "flex",
-            justifyContent: "center",
+            maxWidth: 600,
+            paddingTop: 20,
+            textAlign: "left",
           }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
         >
-          <p>Dont have an account?</p> <Link to="/register"> Register</Link>
-        </div>
-      </Form>
-    </div>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input type="email" />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            wrapperCol={{
+              offset: 10,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Sign in
+            </Button>
+          </Form.Item>
+          <div style={{ textAlign: "center" }}>
+            Do not have an account? <Link to="/register">Register</Link>
+          </div>
+        </Form>
+      </div>
+    </>
   );
 }
 
