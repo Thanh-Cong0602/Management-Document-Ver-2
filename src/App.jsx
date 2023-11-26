@@ -1,8 +1,8 @@
 import { useState } from "react";
-import MyHeader from "./Components/MyHeader/myHeader";
+import MyFooter from "./Components/MyFooter/MyFooter";
 
 function App() {
-  return <MyHeader></MyHeader>;
+  return <MyFooter />;
 }
 
 export default App;

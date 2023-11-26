@@ -5,7 +5,7 @@ const MyHeader = () => {
   return (
     <Flex
       style={{
-        width: "100vw",
+        width: "100%",
         padding: "0 2%",
         backgroundColor: "white",
         height: "60px",
