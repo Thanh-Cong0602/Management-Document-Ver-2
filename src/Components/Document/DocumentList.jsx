@@ -5,11 +5,11 @@ import { Button, message, Upload } from "antd";
 import axios from "axios";
 
 const columns = [
-  {
-    title: "STT",
-    dataIndex: "index",
-    key: "index",
-  },
+  // {
+  //   title: "STT",
+  //   dataIndex: "index",
+  //   key: "index",
+  // },
   {
     title: "Tên",
     dataIndex: "name",
@@ -69,18 +69,21 @@ const props = {
 };
 
 const DocumentList = () => {
-  const [data, setData] = useState([]);
+  const [docList, setdocList] = useState([]);
+  const getDocList = async () => {
+    const { data } = await axios.get("http://localhost/document");
+    setdocList(
+      data.content
+
+      // , () => {
+      // console.log(docList);
+      // }
+    );
+    // setdocList(data.content);
+  };
   useEffect(() => {
-    axios.get("http://localhost/document").then((res) => {
-      const resData = res.data.map((item, key) => {
-        return {
-          ...item,
-          index: key + 1,
-        };
-      });
-      setData(resData);
-      console.log(resData);
-    });
+    getDocList();
+    console.log(docList);
   }, []);
   return (
     <div>
@@ -88,7 +91,7 @@ const DocumentList = () => {
         columns={columns}
         bordered
         title={() => "Danh sách"}
-        dataSource={data}
+        dataSource={docList}
       />
     </div>
   );
