@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Select, Table } from "antd";
+import { getDoc } from "../../../Api/Service/doc.service";
 
 function ViewDoc() {
   const [docList, setDocList] = useState([]);
@@ -56,14 +56,12 @@ function ViewDoc() {
   }));
 
   const getDocList = async () => {
-    const { data } = await axios.get("http://localhost/document");
+    const { data } = await getDoc("");
     setDocList(data.content);
   };
 
   const getDocInfo = async (docId) => {
-    const { data } = await axios.get(
-      `http://localhost/document/${docId}/latest`
-    );
+    const { data } = await getDoc(`${docId}/latest`);
     setCurrentDocInfo(data);
     const versionList = data.versionList;
     const versionListInfo = await Promise.all(
@@ -73,9 +71,7 @@ function ViewDoc() {
   };
 
   const getDocVersion = async (docId, version) => {
-    const { data } = await axios.get(
-      `http://localhost/document/${docId}/${version}`
-    );
+    const { data } = await getDoc(`${docId}/${version}`);
     return data.documentVersion;
   };
 

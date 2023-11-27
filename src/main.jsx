@@ -1,12 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import ViewDoc from "./Components/User/ViewDoc/ViewDoc.jsx";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import { store, persistor } from "./Redux/_stores";
+import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ViewDoc />
-    </BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
