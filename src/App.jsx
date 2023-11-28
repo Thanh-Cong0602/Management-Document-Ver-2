@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <UpdateFile  id={1}/>
+      <UpdateFile  id={2}/>
     </>
   )
 }

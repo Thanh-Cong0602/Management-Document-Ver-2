@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-
+import axios from "axios";
 import "./Form.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -16,28 +16,39 @@ function UpdateFile(id) {
   const [errorMsg, setErrorMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false)
 
+  const [fileName, setFileName] = useState('');
 
-
-  const [fetchedData, setFetchedData] = useState('');
 
   useEffect(() => {
     // fetch data
-     fetch(
-         `http://localhost/document/${id.id}/latest`,
-        )
-      .then(res =>
-        
-         res.json())
-      .then(data => {
-        console.log(data)
-        setFetchedData(data)
-      }
-      ).catch(err => console.log(err));
+    //  fetch(
+    //      `http://localhost/document/${id.id}/latest`,
+    //     )
+    //   .then((res) =>{
+    //     console.log(res)
+    //   }  
+    //   )
+    //   .then(data => {
+    //     console.log(data)
+    //     setName(data.name)
+    //     setDescription(data.description)
+    //     // setFileName(data.)
+    //   }
+    //   ).catch(err => console.log(err));
+    axios.get( `http://localhost/document/${id.id}/latest`).then((res) => {
+        console.log(res)
+
+      const data = res.data;
+        setName(data.name)
+        setDescription(data.description)
+        setFileName(data.documentVersion.filename)
+    })
 
     }
 
   , []);
   const inputChangeHandler = (setValue, event) => {
+    console.log(1)
     setValue(event.target.value);
   };
   const fileChangeHandler = (event) => {
@@ -73,6 +84,7 @@ function UpdateFile(id) {
     if(!isError) {
     const formData = new FormData();
     const content = JSON.stringify({
+      id: id.id,
       name: name,
       description: description,
       content: 'Content for first version'
@@ -85,7 +97,7 @@ function UpdateFile(id) {
       body: formData,
 
     })
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((result) => {
         // navigate("/user/homepage");
         setName("");
@@ -119,7 +131,16 @@ function UpdateFile(id) {
             className="form-control"
             placeholder="Name"
             onChange={(e) => inputChangeHandler(setName, e)}
-            value={fetchedData.name}
+            value={name}
+          />{" "}
+          <br/>
+           <input
+            name="name"
+            type="text"
+            className="form-control"
+            placeholder="Version"
+            onChange={(e) => inputChangeHandler(setName, e)}
+          
           />{" "}
           <br />
           <textarea
@@ -129,7 +150,7 @@ function UpdateFile(id) {
             cols="50"
             placeholder="Description"
             onChange={(e) => inputChangeHandler(setDescription, e)}
-            value={fetchedData.description}
+            value={description}
 
           ></textarea>{" "}
           <br />
@@ -138,9 +159,17 @@ function UpdateFile(id) {
             type="file"
             className="form-control"
             name="file"
-            accept=".pdf,.jpeg,, .png, .jpg, video/m4v, .ppt, .pptx"
+            accept=".pdf,.jpeg,, .png, .jpg, video/m4v, .ppt, .pptx"   //png/jpg/jpeg m4v mkav ppt pptx docx doc
+            
+            defaultValue={fileName}
+
           />{" "}
           <br />
+
+          
+         
+
+          <br/>
           {isError && <div className="error-text">{errorMsg}</div>}
           <div className="btn btn-primary" onClick={handleSubmit} >
             Upload
