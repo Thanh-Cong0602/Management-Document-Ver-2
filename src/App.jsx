@@ -25,6 +25,16 @@ function App() {
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/user/homepage" element={<Homepage />} />
+        <Route
+          path="/user/updateInformation"
+          element={
+            <>
+              <MyHeader />
+              <UpdateInforUser />
+              <MyFooter />
+            </>
+          }
+        />
       </Routes>
     </div>
 
