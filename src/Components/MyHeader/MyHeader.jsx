@@ -1,17 +1,28 @@
 /** @format */
 
-import { Avatar, Dropdown, Flex, Space, Typography } from "antd";
+import {
+  Avatar,
+  Dropdown,
+  Flex,
+  Space,
+  Typography,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setLoggedIn } from "../../Redux/_action/user.action";
 import logo from "../../assets/logo.jpg";
-import { UserAddOutlined, PoweroffOutlined } from "@ant-design/icons";
+import {
+  UserAddOutlined,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 import "./MyHeader.css";
-import tcn from '../../assets/tcn.JPG'
+import tcn from "../../assets/tcn.JPG";
 const MyHeader = () => {
-  const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
+  const isLoggedIn = useSelector(
+    (state) => state.userReducer.isLoggedIn
+  );
   const dispatch = useDispatch();
-  const logout = () => {
+  const handleLogout = () => {
     dispatch(setLoggedIn(false));
   };
 
@@ -20,7 +31,9 @@ const MyHeader = () => {
       label: (
         <div style={{ display: "flex", gap: "10px" }}>
           <UserAddOutlined />
-          <Link to="/user/updateInformation">Update Information</Link>
+          <Link to='/user/updateInformation'>
+            Update Information
+          </Link>
         </div>
       ),
       key: "0",
@@ -30,9 +43,9 @@ const MyHeader = () => {
     },
     {
       label: (
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div style={{ display: "flex", gap: "10px", cursor: 'pointer' }}>
           <PoweroffOutlined />
-          <Link to="/" onClick={logout}>
+          <Link to='/homepage' onClick={handleLogout}>
             Logout
           </Link>
         </div>
@@ -55,12 +68,33 @@ const MyHeader = () => {
       align={"flex-start"}
     >
       <div style={{ display: "flex" }}>
-        <Avatar shape="square" size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 60, xxl: 100 }} src={logo} />
-        <Typography style={{ color: "black", paddingTop: "9%", fontWeight: "700" }}>Quản lý sách online</Typography>
+        <Avatar
+          shape='square'
+          size={{
+            xs: 24,
+            sm: 32,
+            md: 40,
+            lg: 64,
+            xl: 60,
+            xxl: 100,
+          }}
+          src={logo}
+        />
+        <Typography
+          style={{
+            color: "black",
+            paddingTop: "9%",
+            fontWeight: "700",
+          }}
+        >
+          Quản lý sách online
+        </Typography>
       </div>
       {!isLoggedIn ? (
-        <Typography style={{ paddingTop: "1.2%", fontWeight: "600" }}>
-          <Link to="/login">Đăng Nhập</Link>
+        <Typography
+          style={{ paddingTop: "1.2%", fontWeight: "600" }}
+        >
+          <Link to='/login'>Đăng Nhập</Link>
         </Typography>
       ) : (
         <Dropdown
@@ -70,7 +104,11 @@ const MyHeader = () => {
         >
           <Link onClick={(e) => e.preventDefault()}>
             <Space>
-              <img src={tcn} alt="Avatar User" className="navbar_user_img" />
+              <img
+                src={tcn}
+                alt='Avatar User'
+                className='navbar_user_img'
+              />
             </Space>
           </Link>
         </Dropdown>

@@ -1,13 +1,14 @@
+/* eslint-disable no-unused-vars */
 /** @format */
 
 import React from "react";
 import {
-  UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import "./User.css";
+import { Link } from "react-router-dom";
 const { Sider } = Layout;
 
 // eslint-disable-next-line react/prop-types
@@ -27,19 +28,27 @@ function SidebarUser({ collapsed }) {
           defaultSelectedKeys={["1"]}
           items={[
             {
-              key: "1",
+              key: "/",
               icon: <UserOutlined />,
-              label: "nav 1",
+              label: <Link to='/'>Homepage</Link>,
             },
             {
-              key: "2",
+              key: "/user/documentlists",
               icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              label: (
+                <Link to='/user/documentlists'>
+                  Document Lists
+                </Link>
+              ),
             },
             {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
+              key: "/user/documentlists",
+              icon: <VideoCameraOutlined />,
+              label: (
+                <Link to='/user/documentlists'>
+                  Document Lists
+                </Link>
+              ),
             },
           ]}
         />

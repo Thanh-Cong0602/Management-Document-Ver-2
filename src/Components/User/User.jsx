@@ -9,6 +9,7 @@ import { Layout, Button, theme } from "antd";
 const { Header, Content } = Layout;
 import Homepage from "./Homepage/Homepage";
 import SidebarUser from "./SidebarUser";
+import DocumentList from "./DocumentList/DocumentList";
 const User = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -50,10 +51,8 @@ const User = () => {
           }}
         >
           <Routes>
-            <Route
-              path='/user/homepage'
-              element={<Homepage />}
-            />
+            <Route path='/' element={<Homepage />} />
+            <Route path='/user/documentlists' element={<DocumentList />} />
           </Routes>
         </Content>
       </Layout>
