@@ -1,6 +1,6 @@
 import React from 'react'
-import MyHeader from '../../MyHeader/MyHeader'
 import MyFooter from '../../MyFooter/MyFooter'
+import MyHeader from '../../MyHeader/MyHeader'
 function Homepage() {
   return (
     <div>

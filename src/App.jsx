@@ -1,14 +1,13 @@
-
-/** @format */
-
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
 import LoginScreen from "./Components/LoginScreen/LoginScreen";
-import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
 import MyFooter from "./Components/MyFooter/MyFooter";
 import MyHeader from "./Components/MyHeader/MyHeader";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
 import Homepage from "./Components/User/Homepage/Homepage";
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import Banner from "./Components/Banner/Banner";
+
 function App() {
   return (
     <div>
@@ -18,6 +17,7 @@ function App() {
           element={
             <>
               <MyHeader />
+              <Banner />
               <MyFooter />
             </>
           }

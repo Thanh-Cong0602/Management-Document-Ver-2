@@ -24,6 +24,7 @@ function DocumentList() {
       console.log(res);
       setDocuments(res.data);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
  
   return (
@@ -40,8 +41,8 @@ function DocumentList() {
         </tr>
       </thead>
       <tbody>
-        {documents.map((document, key) => (
-          <tr key={key}>
+        {documents.map((document, index) => (
+          <tr key={index}>
             <td>{document.filename}</td>
             <td>{document.description}</td>
             <td>{document.name}</td>

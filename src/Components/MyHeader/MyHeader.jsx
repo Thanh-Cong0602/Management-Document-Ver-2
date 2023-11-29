@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setLoggedIn } from "../../Redux/_action/user.action";
 import logo from "../../assets/logo.jpg";
-import user_img from "../../assets/user_img.png";
 import { UserAddOutlined, PoweroffOutlined } from "@ant-design/icons";
 import "./MyHeader.css";
-
+import tcn from '../../assets/tcn.JPG'
 const MyHeader = () => {
   const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
   const dispatch = useDispatch();
@@ -71,7 +70,7 @@ const MyHeader = () => {
         >
           <Link onClick={(e) => e.preventDefault()}>
             <Space>
-              <img src={user_img} alt="Avatar User" className="navbar_user_img" />
+              <img src={tcn} alt="Avatar User" className="navbar_user_img" />
             </Space>
           </Link>
         </Dropdown>
