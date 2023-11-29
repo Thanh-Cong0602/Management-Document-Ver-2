@@ -3,7 +3,10 @@
 import { userConstants } from "../_constants";
 const initialState = {
   isLoggedIn: false,
-  dataUser: "",
+  dataUser: {
+    email: "",
+    role: ""
+  },
 };
 
 export function userReducer(state = initialState, action) {
