@@ -19,10 +19,13 @@ function LoginScreen() {
     };
     login("user/login", body)
       .then((res) => {
-        console.log(res.data.email);
+        const dataUser = {
+          email: res.data.email,
+          role: res.data.permission.role
+        }
         dispatch(setLoggedIn(true));
-        dispatch(setDataUser(res.data.email));
-        navigate("/user/homepage");
+        dispatch(setDataUser(dataUser));
+        navigate("/");
       })
       .catch((err) => {
         const message = err.response.data.message;
