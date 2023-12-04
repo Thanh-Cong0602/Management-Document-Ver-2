@@ -1,26 +1,53 @@
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from "react";
+import { Modal } from "antd";
+
+
 import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
 import { getDocument } from "../../../Api/Service/document.service";
+import UpdateDocument from "../UploadDocument/UpdateDocument";
+
+
+
+
 function DocumentList() {
-  const handleDelete = (id) => {
-    alert("Are you sure delete the document?");
-    setDeleteDoc(id);
-  };
-  const handleDetails = (id, version) => {
-    setId(id);
-    setVersion(version);
-  }
 
   const [documents, setDocuments] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [pageNo, setPageNo] = useState(0);
   const [id, setId] = useState();
   const [version, setVersion] = useState();
-  const [deleteDoc, setDeleteDoc] = useState();
+
+  const [openModal, setOpenModal] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Content of the modal');
+  const handleUpdate = (id) => {
+    setId(id)
+    setOpenModal(true);
+
+  };
+
+  const handleOk = () => {
+    setModalText('The modal will be closed after two seconds');
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpenModal(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpenModal(false);
+  };
+  const handleDetails = (id, version) => {
+    getDocument(`document/${id}/${version ? version : 'latest'}`)
+    .then((res) => {
+      window.open(res.data.documentVersion.url, '__blank');
+    })
+  }
 
   useEffect(() => {
     getDocument(`document?pageNo=${pageNo}&pageSize=10`)
@@ -30,24 +57,19 @@ function DocumentList() {
     });
   }, [pageNo]);   
 
-  useEffect(() => {
-   getDocument(`document/${id}/${version}`)
-    .then((res) => {
-      window.location.href = res.data.documentVersion.url;
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
 
-  useEffect(() => {
-    axios.delete(`document/${deleteDoc}`)
-    .then((res) => {
-      if(res.status == 200){
-        alert("Deleted successfull!");
-        window.location.reload();
-      }
-      else alert("Not Successfull");
-    })
-  }, [deleteDoc]);
+
+
+  // useEffect(() => {
+  //   axios.delete(`document/${deleteDoc}`)
+  //   .then((res) => {
+  //     if(res.status == 200){
+  //       alert("Deleted successfull!");
+  //       window.location.reload();
+  //     }
+  //     else alert("Not Successfull");
+  //   })
+  // }, [deleteDoc]);
 
  const handlePageClick = (event) => {
   console.log("even lib: ", event)
@@ -73,12 +95,14 @@ function DocumentList() {
             <td>{document.description}</td>
             <td>{document.lastVersion}</td>
             <td>{document.lastModified}</td>
-            <td><Button variant="success" onClick={() => handleDetails(document.id, document.lastVersion)}>View</Button>
+            <td><Button size="sm" style={{marginLeft: '12px'}} variant="success" onClick={() => handleDetails(document.id, document.lastVersion)}>View</Button>
             <Button
-                variant="danger"
-                onClick={() => handleDelete(document.id)}
+                size="sm"
+                variant="warning"
+                style={{marginLeft: '12px'}}
+                onClick={() => handleUpdate(document.id)}
               >
-                Delete
+                Update
               </Button>
             </td>
           </tr>
@@ -106,6 +130,38 @@ function DocumentList() {
         renderOnZeroPageCount={null}
       />
   </div>
+  <Modal
+        title= {
+        <div style={
+         { textAlign: 'center',
+          fontSize: 24,
+          fontWeight: 600,
+          color: '#199cff',
+          fontFamily: 'Poppins'
+        }
+          
+        }>
+          Update your document
+          
+        </div>
+      
+        }
+        open={openModal}
+        onOk={handleOk}
+        okText="Update"
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        style= {{
+          top:20,
+        }}
+        styles={{
+          content: {width: 700},
+          title: {fontSize: 50}
+        
+        }}
+      >
+       <UpdateDocument id={id} />
+      </Modal>
   </div>
   );
 }

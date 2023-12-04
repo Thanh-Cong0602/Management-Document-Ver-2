@@ -11,7 +11,7 @@ import "./FormDocument.css";
 import { createDoc } from "../../../Api/Service/doc.service";
 import uploadImage from "../../../assets/upload.png";
 
-function UploadDocument() {
+function UpdateDocument(id) {
   const [isValid, setIsValid] = useState({
     file: true,
     content: true,
@@ -197,7 +197,6 @@ function UploadDocument() {
     <Fragment>
       <div className="container">
         <div className="form-container">
-          <div className="text">Upload Your Document</div>
           {contextHolder}
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="form-row">
@@ -350,26 +349,7 @@ function UploadDocument() {
               </section>
             )}
 
-            <div className="form-row submit-btn">
-              <div className="input-data">
-                <div className="inner"></div>
-                <button
-                  type="submit"
-                  className={`${
-                    progress === 100 &&
-                    enteredInput.file &&
-                    isValid.content &&
-                    isValid.description &&
-                    isValid.name &&
-                    isValid.file
-                      ? ""
-                      : "disabled"
-                  }`}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
+         
           </form>
         </div>
       </div>
@@ -377,4 +357,4 @@ function UploadDocument() {
   );
 }
 
-export default UploadDocument;
+export default UpdateDocument;

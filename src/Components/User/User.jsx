@@ -11,6 +11,7 @@ import Homepage from "./Homepage/Homepage";
 import SidebarUser from "./SidebarUser";
 import DocumentList from "./DocumentList/DocumentList";
 import UploadDocument from './UploadDocument/UploadDocument'
+import UpdateDocument from "./UploadDocument/UpdateDocument";
 import ViewDoc from "./ViewDoc/ViewDoc";
 const User = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -57,6 +58,7 @@ const User = () => {
             <Route path='/user/documentlists' element={<DocumentList />} />
             <Route path='/user/viewdoc' element={<ViewDoc />} />
             <Route path='/user/uploadDocument' element={<UploadDocument />} />
+
           </Routes>
         </Content>
       </Layout>

@@ -10,15 +10,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 10px;
   font-family: 'Poppins', sans-serif;
   /* background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%); */
 }
 .form-container{
-  max-width: 800px;
+  max-width: 700px;
   background: #fff;
-  width: 800px;
+  width: 700px;
   padding: 25px 40px 10px 40px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
@@ -35,7 +35,7 @@
 }
 .form-container form .form-row{
   display: flex;
-  margin: 60px 0;
+  margin: 50px 0;
 }
 form .form-row .input-data{
   width: 100%;
@@ -158,6 +158,12 @@ input[type=file]:focus {
   transition: transform 0.3s ease;
 }
 
+.input-data.invalid .underline {
+  transform: scale(1);
+  background: red;
+
+}
+
 .input-data input:focus ~ .underline:before,
 .input-data input:valid ~ .underline:before,
 .textarea textarea:focus ~ .underline:before,
@@ -245,7 +251,7 @@ section.details span {
 }
 
 .loading-area .row .content {
-  width: 100%;
+  width: calc(100% - 50px);
   margin-left: 15px;
 }
 
@@ -271,35 +277,6 @@ section.details span {
   border-radius: inherit;
 }
 
-.uploaded-area {
-  overflow-y: scroll;
-}
-
-.uploaded-area.onprogress {
-  max-height: 150px;
-}
-
-.uploaded-area::-webkit-scrollbar {
-  width: 0px;
-}
-
-.uploaded-area .row .content {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.uploaded-area .row .details {
-  display: flex;
-  margin-left: 15px;
-  flex-direction: column;
-  text-align: left;
-}
-
-.uploaded-area .row .details .size-file {
-  color: #404040;
-  font-size: 14px;
-}
 
 section .row i.fa-check {
   font-size: 16px !important;
@@ -333,6 +310,14 @@ section .row i.fa-check {
 .error {
   color: red;
   /* margin-left: 2rem;  */
+}
+
+.container .center {
+  margin: 20px 0;
+  margin-bottom: 20px;
+  padding: 0 50px;
+  text-align: center;
+  border-radius: 4px;
 }
 
 
