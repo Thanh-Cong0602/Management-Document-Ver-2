@@ -1,13 +1,11 @@
 #root {
   margin: 0;
-  text-align: center;
   min-height: 100vh;
 }
 body {
   background-color: white;
 }
 .App {
-  text-align: center;
   min-height: 100vh;
 }
 .logo {

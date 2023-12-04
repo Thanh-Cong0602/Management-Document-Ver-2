@@ -301,8 +301,8 @@ section.details span {
   font-size: 14px;
 }
 
-.uploaded-area i.fa-check {
-  font-size: 16px;
+section .row i.fa-check {
+  font-size: 16px !important;
 }
 
 .submit-btn .input-data{
@@ -321,6 +321,18 @@ section.details span {
   font-weight: 600;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   cursor: pointer;
+}
+
+.submit-btn .input-data button.disabled{
+  /* border: 1px solid #999999; */
+  background-color: #cccccc;
+  color: #666666;
+
+}
+
+.error {
+  color: red;
+  /* margin-left: 2rem;  */
 }
 
 
