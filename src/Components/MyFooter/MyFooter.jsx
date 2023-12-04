@@ -11,13 +11,24 @@ const MyFooter = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "20px"
+        padding: "20px",
+        position: "fixed",
+        bottom: "0",
+        width: "100%",
       }}
     >
       <div>
         <div style={{ display: "flex" }}>
-          <Avatar shape="square" src={logo} size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 200, xxl: 100 }} />
-          <Typography className="slogan"> Dữ liệu an toàn, Quản lý linh hoạt: <br /> Nền tảng quản lý tài liệu trực tuyến của bạn</Typography>
+          <Avatar
+            shape="square"
+            src={logo}
+            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 200, xxl: 100 }}
+          />
+          <Typography className="slogan">
+            {" "}
+            Dữ liệu an toàn, Quản lý linh hoạt: <br /> Nền tảng quản lý tài liệu
+            trực tuyến của bạn
+          </Typography>
         </div>
       </div>
       <div style={{ color: "black", display: "flex", alignItems: "center" }}>
@@ -30,7 +41,7 @@ const MyFooter = () => {
         </div>
         <div>
           <Typography className="headInfo">Contact</Typography>
-          <div className="info" style={{width: "200px"}}>
+          <div className="info" style={{ width: "200px" }}>
             <Typography>Phone: 0334634543</Typography>
             <Typography>Email: superDev@gmail.com</Typography>
           </div>
