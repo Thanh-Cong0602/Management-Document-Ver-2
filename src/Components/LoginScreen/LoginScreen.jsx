@@ -48,7 +48,7 @@ function LoginScreen() {
           borderRadius: "10px",
         }}
       >
-        <label style={{ fontSize: "40px", fontWeight: "bold" }}>Login</label>
+        <label style={{ fontSize: "40px", fontWeight: "bold", textAlign: 'center' }}>Login</label>
         <Form
           name="basic"
           labelCol={{

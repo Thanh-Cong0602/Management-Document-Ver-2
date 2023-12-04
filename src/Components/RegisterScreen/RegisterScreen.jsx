@@ -53,7 +53,7 @@ function RegisterScreen() {
       phone: values.phone,
       dob: values["date-picker"].format("DD/MM/YYYY"),
       gender: values.gender === "male",
-      role: "user",
+      role: "admin",
     };
     register("user/register", body)
       .then(() => {
