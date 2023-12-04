@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import User from "./Components/User/User";
 import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
 import Admin from "./Components/Admin/Admin";
+import UploadDocument from "./Components/Document/UploadDocument/UploadDocument";
 
 function App() {
   const navigate = useNavigate();
@@ -53,6 +54,16 @@ function App() {
               <MyHeader />
               <UpdateInforUser />
               <MyFooter />
+            </>
+          }
+        />
+        <Route
+          path="/upload-document"
+          element={
+            <>
+            <MyHeader />
+              <UploadDocument />
+            <MyFooter />
             </>
           }
         />

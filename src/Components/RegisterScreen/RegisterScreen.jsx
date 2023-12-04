@@ -22,6 +22,7 @@ function RegisterScreen() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const onFinish = (values) => {
+    console.log(values)
     const isValidTel = /\D/;
     const isValidSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/;
     if (values.password !== values.confirmPassword) {
@@ -196,6 +197,8 @@ function RegisterScreen() {
               <Option value="female">Female</Option>
             </Select>
           </Form.Item>
+
+      
           <div style={{ textAlign: "center" }}>
             Do you have already account? <Link to="/login">Login Here</Link>
           </div>
