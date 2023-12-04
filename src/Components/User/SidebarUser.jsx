@@ -3,8 +3,9 @@
 
 import React from "react";
 import {
-  UserOutlined,
-  VideoCameraOutlined,
+  HomeOutlined,
+  FileOutlined,
+  ContainerOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import "./User.css";
@@ -29,12 +30,12 @@ function SidebarUser({ collapsed }) {
           items={[
             {
               key: "/",
-              icon: <UserOutlined />,
+              icon: <HomeOutlined />,
               label: <Link to='/'>Homepage</Link>,
             },
             {
               key: "/user/documentlists",
-              icon: <VideoCameraOutlined />,
+              icon: <ContainerOutlined />,
               label: (
                 <Link to='/user/documentlists'>
                   Document Lists
@@ -43,10 +44,10 @@ function SidebarUser({ collapsed }) {
             },
             {
               key: "/user/documentlists",
-              icon: <VideoCameraOutlined />,
+              icon: <FileOutlined />,
               label: (
-                <Link to='/user/documentlists'>
-                  Document Lists
+                <Link to='/user/viewdoc'>
+                  View Document
                 </Link>
               ),
             },

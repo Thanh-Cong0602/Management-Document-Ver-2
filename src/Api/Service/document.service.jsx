@@ -14,3 +14,5 @@ export function getDocument(endpoint) {
 export function updateDocument(endpoint, body) {
   return API.put(`${API_BASE.apiUrl}/${endpoint}`, body);
 }
+
+

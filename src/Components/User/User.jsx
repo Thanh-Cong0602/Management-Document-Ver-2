@@ -10,6 +10,7 @@ const { Header, Content } = Layout;
 import Homepage from "./Homepage/Homepage";
 import SidebarUser from "./SidebarUser";
 import DocumentList from "./DocumentList/DocumentList";
+import ViewDoc from "./ViewDoc/ViewDoc";
 const User = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -53,6 +54,7 @@ const User = () => {
           <Routes>
             <Route path='/' element={<Homepage />} />
             <Route path='/user/documentlists' element={<DocumentList />} />
+            <Route path='/user/viewdoc' element={<ViewDoc />} />
           </Routes>
         </Content>
       </Layout>
