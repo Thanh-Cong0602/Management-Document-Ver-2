@@ -1,15 +1,52 @@
-// import { useState } from 'react'
+/** @format */
 
-import './App.css'
-import UpdateFile from './Components/User/UpdateFile/UpdateFile'
+import "./App.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import LoginScreen from "./Components/LoginScreen/LoginScreen";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
+import MyFooter from "./Components/MyFooter/MyFooter";
+import MyHeader from "./Components/MyHeader/MyHeader";
+import Homepage from "./Components/User/Homepage/Homepage";
+import UploadDocument from "./Components/Document/UploadDocument/UploadDocument";
+
 function App() {
-// const [count, setCount] = useState(0)
-
   return (
-    <>
-      <UpdateFile  id={2}/>
-    </>
-  )
+    <div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <MyHeader />
+              <MyFooter />
+            </>
+          }
+        />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/user/homepage" element={<Homepage />} />
+        <Route path="/document/upload" element={
+           <>
+           <MyHeader />
+              <UploadDocument/>
+            <MyFooter />
+          </>
+      
+        }/>
+        <Route
+          path="/user/updateInformation"
+          element={
+            <>
+              <MyHeader />
+              <UpdateInforUser />
+              <MyFooter />
+            </>
+          }
+        />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
