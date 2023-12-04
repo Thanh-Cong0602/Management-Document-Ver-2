@@ -5,7 +5,8 @@ import React from "react";
 import {
   HomeOutlined,
   FileOutlined,
-  ContainerOutlined
+  ContainerOutlined,
+  UploadOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import "./User.css";
@@ -43,11 +44,20 @@ function SidebarUser({ collapsed }) {
               ),
             },
             {
-              key: "/user/documentlists",
+              key: "/user/viewdoc",
               icon: <FileOutlined />,
               label: (
                 <Link to='/user/viewdoc'>
                   View Document
+                </Link>
+              ),
+            },
+             {
+              key: "/user/uploadDocument",
+              icon: <UploadOutlined />,
+              label: (
+                <Link to='/user/uploadDocument'>
+                  Upload Document
                 </Link>
               ),
             },
