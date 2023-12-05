@@ -20,7 +20,7 @@
   background: #fff;
   width: 700px;
   padding: 25px 40px 10px 40px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  /* box-shadow: 0px 0px 10px rgba(0,0,0,0.1); */
 }
 .form-container .text{
   text-align: center;
@@ -318,6 +318,12 @@ section .row i.fa-check {
   padding: 0 50px;
   text-align: center;
   border-radius: 4px;
+}
+
+optgroup {
+  font-weight: 600; /* Make the label text bold */
+  color: #333; /* Set the label text color */
+  font-size: 16px;
 }
 
 

@@ -36,17 +36,7 @@ function UploadDocument() {
       const parts = value.name.split(".");
       const extension = parts[parts.length - 1];
       const acceptedType = [
-        "mp4",
-        "mkv",
-        "jpg",
-        "png",
-        "jpeg",
-        "docx",
-        // "pptx",
-        "pdf",
-        "doc",
-        // "ppt",
-        "txt",
+        "jpeg", "png", "jpg", "pdf", "ppt", "mp4", "mkv", "xls"
       ];
       if (!acceptedType.includes(extension.toLowerCase())) {
         return setIsValid(prevState => ({

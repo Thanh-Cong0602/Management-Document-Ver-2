@@ -20,23 +20,19 @@ function DocumentList() {
   const [pageNo, setPageNo] = useState(0);
   const [id, setId] = useState();
   const [version, setVersion] = useState();
-
+  const [isUpdated, setIsUpdated] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
-  const handleUpdate = (id) => {
+  const handleUpdate = (id, version) => {
     setId(id)
+    setVersion(version)
     setOpenModal(true);
 
   };
+ 
 
-  const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpenModal(false);
-      setConfirmLoading(false);
-    }, 2000);
+  const handleOk = (isUpdated) => {
+    setIsUpdated(isUpdated)
+    setOpenModal(false);
   };
   const handleCancel = () => {
     console.log('Clicked cancel button');
@@ -50,12 +46,13 @@ function DocumentList() {
   }
 
   useEffect(() => {
+    setIsUpdated(false);
     getDocument(`document?pageNo=${pageNo}&pageSize=10`)
     .then(res => {
       setDocuments(res.data.content); 
       setPageCount(res.data.totalPages);
     });
-  }, [pageNo]);   
+  }, [pageNo, isUpdated]);   
 
 
 
@@ -100,7 +97,7 @@ function DocumentList() {
                 size="sm"
                 variant="warning"
                 style={{marginLeft: '12px'}}
-                onClick={() => handleUpdate(document.id)}
+                onClick={() => handleUpdate(document.id, document.lastVersion)}
               >
                 Update
               </Button>
@@ -147,9 +144,8 @@ function DocumentList() {
       
         }
         open={openModal}
+        footer={null}
         onOk={handleOk}
-        okText="Update"
-        confirmLoading={confirmLoading}
         onCancel={handleCancel}
         style= {{
           top:20,
@@ -160,7 +156,7 @@ function DocumentList() {
         
         }}
       >
-       <UpdateDocument id={id} />
+       <UpdateDocument id={id} handleUpdate = {handleOk}/>
       </Modal>
   </div>
   );
