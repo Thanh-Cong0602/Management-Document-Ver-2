@@ -1,35 +1,95 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/** @format */
+import { useEffect } from "react";
+import {
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import "./App.css";
+import LoginScreen from "./Components/LoginScreen/LoginScreen";
+import MyFooter from "./Components/MyFooter/MyFooter";
+import MyHeader from "./Components/MyHeader/MyHeader";
+import RegisterScreen from "./Components/RegisterScreen/RegisterScreen";
+import Banner from "./Components/Banner/Banner";
+import { useSelector } from "react-redux";
+import User from "./Components/User/User";
+import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import Admin from "./Components/Admin/Admin";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const navigate = useNavigate();
+  const role = useSelector(
+    (state) => state.userReducer.dataUser.role
+  );
+  const isLoggedIn = useSelector(
+    (state) => state.userReducer.isLoggedIn
+  );
+  console.log(role);
+  console.log(isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn === false || isLoggedIn === null) {
+      navigate("/homepage");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Routes>
+        <Route
+          path='/homepage'
+          element={
+            <>
+              <MyHeader />
+              <Banner />
+              <MyFooter />
+            </>
+          }
+        />
+        <Route path='/login' element={<LoginScreen />} />
+        <Route
+          path='/user/updateInformation'
+          element={
+            <>
+              <MyHeader />
+              <UpdateInforUser />
+              <MyFooter />
+            </>
+          }
+        />
+       
+        <Route
+          path='/register'
+          element={<RegisterScreen />}
+        />
+        {isLoggedIn ? (
+          <>
+            {role === "user" ? (
+              <Route
+                path='*'
+                element={
+                  <>
+                    <MyHeader />
+                    <User />
+                  </>
+                }
+              />
+            ) : (
+              <Route
+                path='*'
+                element={
+                  <>
+                    <MyHeader />
+                    <Admin />
+                  </>
+                }
+              />
+            )}
+          </>
+        ) : null}
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
