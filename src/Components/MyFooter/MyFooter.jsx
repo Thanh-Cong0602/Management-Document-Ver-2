@@ -12,8 +12,6 @@ const MyFooter = () => {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "20px",
-        position: "fixed",
-        bottom: "0",
         width: "100%",
       }}
     >

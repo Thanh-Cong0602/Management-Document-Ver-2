@@ -71,6 +71,7 @@ function App() {
                   <>
                     <MyHeader />
                     <User />
+                    <MyFooter />
                   </>
                 }
               />
@@ -81,6 +82,7 @@ function App() {
                   <>
                     <MyHeader />
                     <Admin />
+                    <MyFooter />
                   </>
                 }
               />

@@ -83,11 +83,11 @@ const MyHeader = () => {
         <Typography
           style={{
             color: "black",
-            paddingTop: "9%",
+            paddingTop: "7%",
             fontWeight: "700",
           }}
         >
-          Quản lý sách online
+          Management Document Online
         </Typography>
       </div>
       {!isLoggedIn ? (

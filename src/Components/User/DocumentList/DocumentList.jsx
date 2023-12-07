@@ -1,7 +1,6 @@
-import axios from "axios";
+import { Modal } from "antd";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from "react";
-import { Modal } from "antd";
 
 
 import Button from "react-bootstrap/Button";

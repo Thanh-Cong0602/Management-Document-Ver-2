@@ -41,14 +41,14 @@ function LoginScreen() {
       <div
         style={{
           width: "497px",
-          height: "250px",
+          height: "350px",
           border: "2px solid black",
           padding: "50px",
           margin: "7vh auto auto",
           borderRadius: "10px",
         }}
       >
-        <label style={{ fontSize: "40px", fontWeight: "bold", textAlign: 'center' }}>Login</label>
+        <div style={{ fontSize: "40px", fontWeight: "bold", textAlign: 'center' }}>Login</div>
         <Form
           name="basic"
           labelCol={{

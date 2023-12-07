@@ -3,8 +3,10 @@
 
 import React from "react";
 import {
+  HomeOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  FileOutlined,
+  UploadOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -18,6 +20,8 @@ function SidebarAdmin({ collapsed }) {
         trigger={null}
         collapsible
         collapsed={collapsed}
+        width={220}
+        style={{height: "auto"}}
         className='sidebarUser'
       >
         <div className='demo-logo-vertical' />
@@ -28,12 +32,12 @@ function SidebarAdmin({ collapsed }) {
           items={[
             {
               key: "/",
-              icon: <UserOutlined />,
+              icon: <HomeOutlined />,
               label: <Link to='/'>Homepage</Link>,
             },
             {
               key: "/admin/manageaccount",
-              icon: <VideoCameraOutlined />,
+              icon: <UserOutlined />,
               label: (
                 <Link to='/admin/manageaccount'>
                   Manage Accounts
@@ -41,11 +45,20 @@ function SidebarAdmin({ collapsed }) {
               ),
             },
             {
-              key: "/user/documentlists",
-              icon: <VideoCameraOutlined />,
+              key: "/admin/managedocument",
+              icon: <FileOutlined />,
               label: (
-                <Link to='/user/documentlists'>
-                  Document Lists
+                <Link to='/admin/managedocument'>
+                  Manage Documents
+                </Link>
+              ),
+            },
+             {
+              key: "/admin/uploaddocument",
+              icon: <UploadOutlined />,
+              label: (
+                <Link to='/admin/uploaddocument'>
+                  Upload Documents
                 </Link>
               ),
             },

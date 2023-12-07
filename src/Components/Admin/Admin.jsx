@@ -11,6 +11,7 @@ import Homepage from "./Homepage/Homepage";
 import SidebarAdmin from "./SidebarAdmin";
 import ManageDocument from './ManageDocument/ManageDocument'
 import ManageAccount from './ManageAccounts/ManageAccount'
+import UploadDocument from "./UploadDocument/UploadDocument";
 const Admin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -55,6 +56,8 @@ const Admin = () => {
             <Route path='/' element={<Homepage />} />
             <Route path='/admin/managedocument' element={<ManageDocument />} />
             <Route path='/admin/manageaccount' element={<ManageAccount />} />
+            <Route path='/admin/uploaddocument' element={<UploadDocument />} />
+            
           </Routes>
         </Content>
       </Layout>

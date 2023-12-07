@@ -11,7 +11,7 @@ const config = {
     {
       type: "object",
       required: true,
-      message: "Please select time!",
+      message: "Please select DOB!",
     },
   ],
 };
@@ -53,7 +53,7 @@ function RegisterScreen() {
       phone: values.phone,
       dob: values["date-picker"].format("DD/MM/YYYY"),
       gender: values.gender === "male",
-      role: "user",
+      role: "admin",
     };
     register("user/register", body)
       .then(() => {
@@ -85,7 +85,7 @@ function RegisterScreen() {
   return (
     <>
       {contextHolder}
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
         <p className="title">Register Account</p>
         <Form
           name="basic"
