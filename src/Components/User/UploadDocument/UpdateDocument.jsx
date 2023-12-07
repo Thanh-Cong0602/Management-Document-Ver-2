@@ -1,17 +1,20 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { message } from "antd";
 import { FaFileAlt } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
+import { Spin, Select  } from "antd";
 
 import "./FormDocument.css";
-import { createDoc } from "../../../Api/Service/doc.service";
+import { updateDoc, getDoc } from "../../../Api/Service/doc.service";
 import uploadImage from "../../../assets/upload.png";
+import axios from "axios";
 
-function UploadDocument() {
+function UpdateDocument({id , handleUpdate}) {
+
   const [isValid, setIsValid] = useState({
     file: true,
     content: true,
@@ -23,13 +26,61 @@ function UploadDocument() {
     content: "",
     name: "",
     description: "",
+    filename: "",
+    version: "",
+    newVersion: null
   });
   const fileInputRef = useRef(null);
+  const buttonRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [messageApi, contextHolder] = message.useMessage();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
- 
+  useEffect(() => {
+    setIsSuccess(false)
+    getDoc(`${id}/latest`)
+      .then(res => {
+        if(res.status === 200) {
+          const {id, name, description, versionList, documentVersion} = res.data;
+          setEnteredInput({
+            id,
+            name,
+            description,
+            version: documentVersion.version,
+            content: documentVersion.content,
+            filename: documentVersion.filename
+          })
+          const documentUrlArr =  documentVersion.url.split('/')
+          const objectName = documentUrlArr[documentUrlArr.length-1];
+          fetch(`https://storage.googleapis.com/download/storage/v1/b/spring-60dd1.appspot.com/o/${objectName}?alt=media`)
+            .then(response => {
+              return response.blob();
+            })
+            .then(blob => {
+              // Process the blob as needed
+              blob.name = documentVersion.filename;
+              blob.lastModified = new Date();
+              const file = new File([blob], documentVersion.filename , {type: blob.type})
+              setEnteredInput(prevState => ({
+                ...prevState,
+                ['file'] : file
+              }))
+            })
+            .catch(error => {
+              error('There is something wrong when fetch data.')
+              console.error('Fetch error:', error)
+            } );
+
+
+        }
+
+      })
+      .catch(err => {
+        error("Failed")
+        console.log(err);
+      })
+  }, [id, isSuccess])
 
   const validate = (identifier, value) => {
     if (identifier === "file") {
@@ -65,6 +116,8 @@ function UploadDocument() {
    }))
   };
 
+
+
   const success = (msg) => {
     messageApi.open({
       type: "success",
@@ -81,22 +134,29 @@ function UploadDocument() {
 
   const handleFileClick = () => {
     fileInputRef.current.click();
+   
   };
 
+ 
   const handleInputChange = (identifier, event) => {
+      if (identifier === 'version') {
+        return  setEnteredInput(prevState => ({
+          ...prevState,
+          ['newVersion']: event.target.value
+        }))
+      }
       setEnteredInput(prevState => ({
         ...prevState,
         [identifier]: event.target.value
       }))
+      
   }
   
   const handleInputBlur = (identifier, value) => {
-    console.log(identifier, value)
     validate(identifier, value)
   }
 
   const handleFileInputChange = (event) => {
-    setIsSuccess(false);
 
     const selectedFile = event.target.files[0];
     if (!selectedFile) {
@@ -120,16 +180,7 @@ function UploadDocument() {
        ['file']: false
      }))
     };
-    // Simulate Uploading Progress
-    // const simulateProgress = () => {
-    //   if (progress < 100) {
-    //     setProgress((prevProgress) => {
-    //       const increment = 1;
-    //       return Math.min(prevProgress + increment, 100);
-    //     });
-    //     setTimeout(simulateProgress, 20);
-    //   }
-    // };
+ 
     reader.onprogress = (event) => {
       if (event.lengthComputable) {
         const percentLoaded = (event.loaded / event.total) * 100;
@@ -143,25 +194,40 @@ function UploadDocument() {
     setProgress(0);
   };
 
+
   const handleSubmit = (event) => {
+    setIsSuccess(false);
+
     setIsSubmited(true);
     event.preventDefault();
-    const fd = new FormData(event.target);
-
-    // Format data submited
     const data = new FormData();
-
+ 
+    // Format data submited
     data.append("file", enteredInput.file);
-    data.append(
-      "content",
-      JSON.stringify({
-        name: enteredInput.name,
-        description: enteredInput.description,
-        content: enteredInput.content,
-      })
-    );
 
-    createDoc("", data)
+    const {newVersion} = enteredInput;
+    if (newVersion === enteredInput.version) {
+      data.append(
+        "content",
+        JSON.stringify({
+          id: id,
+          description: enteredInput.description,
+          content: enteredInput.content,
+        })
+      );
+    }
+    else {
+      data.append(
+        "content",
+        JSON.stringify({
+          id: id,
+          version: parseInt(newVersion),
+          description: enteredInput.description,
+          content: enteredInput.content,
+        })
+      );
+    }
+    updateDoc("", data)
       .then(() => {
         success("File uploaded successfully!");
         event.target.reset();
@@ -174,22 +240,22 @@ function UploadDocument() {
           description: "",
         });
         setIsSubmited(false);
+        handleUpdate(true);
       })
       .catch((err) => {
         error("Uploading failed!");
         console.log(err);
       });
   };
-
-  console.log(isValid)
+  
 
   return (
     <Fragment>
-      <div className="container">
+   
+        <div className="container">
         <div className="form-container">
-          <div className="text">Upload Your Document</div>
           {contextHolder}
-          <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <form onSubmit={handleSubmit} encType="multipart/form-data" ref={buttonRef}>
             <div className="form-row">
               <div className={`input-data ${!isValid.name ? " invalid" : ""}`}>
                 <label htmlFor="name">File Name</label>
@@ -197,10 +263,11 @@ function UploadDocument() {
                   type="text"
                   name="name"
                   id="name"
-                  required
                   minLength={3}
+                  value={enteredInput.name}
                   onChange={(event) =>  handleInputChange("name", event)}
                   onBlur={(event) =>  handleInputBlur("name", event.target.value)}
+                  required
                 />
                 <div className="underline "></div>
               </div>
@@ -217,6 +284,8 @@ function UploadDocument() {
                   cols="80"
                   name="description"
                   id="description"
+                  value={enteredInput.description}
+
                   onChange={(event) =>  handleInputChange("description", event)}
                   onBlur={(event) =>  handleInputBlur("description", event.target.value)}
 
@@ -240,6 +309,8 @@ function UploadDocument() {
                   cols="80"
                   name="content"
                   id="content"
+                  value={enteredInput.content}
+
                   onChange={(event) =>  handleInputChange("content", event)}
                   onBlur={(event) =>  handleInputBlur("content", event.target.value)}
 
@@ -255,11 +326,28 @@ function UploadDocument() {
             <div className="form-row">
               <div className="input-data select">
                 <label htmlFor="version">Versions</label>
-                <select name="version" id="version" required
-                  onChange={(event) =>  handleInputChange("version", event.target.value)}
+                <select 
+                  name="version" 
+                  id="version" 
+                  required
+                  
+                  onChange={(event) =>  handleInputChange("version", event)}
 
                 >
-                  <option value="1.0.0">1.0.0</option>
+                  {/* {versionList.map(version => {
+                    return (
+                      <option value={version} key={version} >{version}</option>
+                    )
+                  })
+                   
+              
+                  } */}
+                  <optgroup label="Current">
+                    <option value={enteredInput.version}>{`${enteredInput.version}`}</option>
+                  </optgroup>
+                  <optgroup label="New">
+                    <option value={parseInt(enteredInput.version) + 1}>{`${parseInt(enteredInput.version) + 1}.0`}</option>
+                  </optgroup>
                 </select>
               </div>
             </div>
@@ -284,25 +372,25 @@ function UploadDocument() {
                 </div>
               </div>
             </div>
-
-            {!isSuccess && (
+            {enteredInput.filename && enteredInput.file && (
               <section className="loading-area">
-                {isValid.file && enteredInput.file && (
-                  <li className="row">
-                    <i className="fas fa-file-alt">
-                      <FaFileAlt />
-                    </i>
-                    <div className="content">
-                      <div className="details">
-                        <span className="file-name">{`${
-                          enteredInput.file.name.length > 12
-                            ? `${enteredInput.file.name.substring(0, 13)}... .${
-                              enteredInput.file.name.split(".")[1]
-                              }`
-                            : enteredInput.file.name
-                        } `}</span>
-                        <span className="percent">
-                          {progress !== 100 && isValid.file ? (
+             
+                <li className="row">
+                  <i className="fas fa-file-alt">
+                    <FaFileAlt />
+                  </i>
+                  <div className="content">
+                    <div className="details">
+                    
+                      <span className="file-name">{`${
+                        enteredInput.file.name.length > 12
+                          ? `${enteredInput.file.name.substring(0, 13)}... .${
+                            enteredInput.file.name.split(".")[1]
+                            }`
+                          : enteredInput.file.name
+                      } `}</span>
+                     <span className="percent">
+                          {  !enteredInput.file ? (
                             `${progress}%`
                           ) : (
                             <i className="fas fa-check">
@@ -310,8 +398,8 @@ function UploadDocument() {
                             </i>
                           )}
                         </span>
-                      </div>
-                      {progress !== 100 && progress !== 0 && (
+                    </div>
+                    {progress !== 100 && progress !== 0 && (
                         <div className="loading-bar">
                           <div
                             className="loading"
@@ -319,11 +407,10 @@ function UploadDocument() {
                           ></div>
                         </div>
                       )}
-                    </div>
-                  </li>
-                )}
+                  </div>
+                </li>
                 {!isValid.file && <p className="error">File is not valid </p>}
-                {isSubmited && (
+                {(  isSubmited) && (
                   <div className="center">
                     <Spin
                       indicator={
@@ -337,8 +424,8 @@ function UploadDocument() {
                     />
                   </div>
                 )}
-              </section>
-            )}
+                </section>
+              )}
 
             <div className="form-row submit-btn">
               <div className="input-data">
@@ -346,7 +433,7 @@ function UploadDocument() {
                 <button
                   type="submit"
                   className={`${
-                    progress === 100 &&
+                    
                     enteredInput.file &&
                     isValid.content &&
                     isValid.description &&
@@ -358,13 +445,19 @@ function UploadDocument() {
                 >
                   Submit
                 </button>
+           
               </div>
             </div>
+            
+                
           </form>
         </div>
       </div>
+
+      
+      
     </Fragment>
   );
 }
 
-export default UploadDocument;
+export default UpdateDocument;
