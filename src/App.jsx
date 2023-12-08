@@ -1,10 +1,6 @@
 /** @format */
 import { useEffect } from "react";
-import {
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import LoginScreen from "./Components/LoginScreen/LoginScreen";
 import MyFooter from "./Components/MyFooter/MyFooter";
@@ -14,17 +10,13 @@ import Banner from "./Components/Banner/Banner";
 import { useSelector } from "react-redux";
 import User from "./Components/User/User";
 import UpdateInforUser from "./Components/User/UpdateInforUser/UpdateInforUser";
+import ChangePassword from "./Components/User/ChangePassword/ChangePassword";
 import Admin from "./Components/Admin/Admin";
-
 
 function App() {
   const navigate = useNavigate();
-  const role = useSelector(
-    (state) => state.userReducer.dataUser.role
-  );
-  const isLoggedIn = useSelector(
-    (state) => state.userReducer.isLoggedIn
-  );
+  const role = useSelector((state) => state.userReducer.dataUser.role);
+  const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
   console.log(role);
   console.log(isLoggedIn);
   useEffect(() => {
@@ -37,7 +29,7 @@ function App() {
     <div>
       <Routes>
         <Route
-          path='/homepage'
+          path="/homepage"
           element={
             <>
               <MyHeader />
@@ -46,9 +38,9 @@ function App() {
             </>
           }
         />
-        <Route path='/login' element={<LoginScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
         <Route
-          path='/user/updateInformation'
+          path="/user/updateInformation"
           element={
             <>
               <MyHeader />
@@ -57,16 +49,24 @@ function App() {
             </>
           }
         />
-       
+
         <Route
-          path='/register'
-          element={<RegisterScreen />}
+          path="/user/changePassword"
+          element={
+            <>
+              <MyHeader />
+              <ChangePassword />
+              <MyFooter />
+            </>
+          }
         />
+
+        <Route path="/register" element={<RegisterScreen />} />
         {isLoggedIn ? (
           <>
             {role === "user" ? (
               <Route
-                path='*'
+                path="*"
                 element={
                   <>
                     <MyHeader />
@@ -77,7 +77,7 @@ function App() {
               />
             ) : (
               <Route
-                path='*'
+                path="*"
                 element={
                   <>
                     <MyHeader />

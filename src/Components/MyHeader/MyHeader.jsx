@@ -1,12 +1,6 @@
 /** @format */
 
-import {
-  Avatar,
-  Dropdown,
-  Flex,
-  Space,
-  Typography,
-} from "antd";
+import { Avatar, Dropdown, Flex, Space, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setLoggedIn } from "../../Redux/_action/user.action";
@@ -14,13 +8,12 @@ import logo from "../../assets/logo.jpg";
 import {
   UserAddOutlined,
   PoweroffOutlined,
+  KeyOutlined,
 } from "@ant-design/icons";
 import "./MyHeader.css";
 import tcn from "../../assets/tcn.JPG";
 const MyHeader = () => {
-  const isLoggedIn = useSelector(
-    (state) => state.userReducer.isLoggedIn
-  );
+  const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(setLoggedIn(false));
@@ -31,9 +24,7 @@ const MyHeader = () => {
       label: (
         <div style={{ display: "flex", gap: "10px" }}>
           <UserAddOutlined />
-          <Link to='/user/updateInformation'>
-            Update Information
-          </Link>
+          <Link to="/user/updateInformation">Update Information</Link>
         </div>
       ),
       key: "0",
@@ -43,9 +34,21 @@ const MyHeader = () => {
     },
     {
       label: (
-        <div style={{ display: "flex", gap: "10px", cursor: 'pointer' }}>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <KeyOutlined />
+          <Link to="/user/changePassword">Change password</Link>
+        </div>
+      ),
+      key: "0",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <div style={{ display: "flex", gap: "10px", cursor: "pointer" }}>
           <PoweroffOutlined />
-          <Link to='/homepage' onClick={handleLogout}>
+          <Link to="/homepage" onClick={handleLogout}>
             Logout
           </Link>
         </div>
@@ -69,7 +72,7 @@ const MyHeader = () => {
     >
       <div style={{ display: "flex" }}>
         <Avatar
-          shape='square'
+          shape="square"
           size={{
             xs: 24,
             sm: 32,
@@ -91,10 +94,8 @@ const MyHeader = () => {
         </Typography>
       </div>
       {!isLoggedIn ? (
-        <Typography
-          style={{ paddingTop: "1.2%", fontWeight: "600" }}
-        >
-          <Link to='/login'>Đăng Nhập</Link>
+        <Typography style={{ paddingTop: "1.2%", fontWeight: "600" }}>
+          <Link to="/login">Đăng Nhập</Link>
         </Typography>
       ) : (
         <Dropdown
@@ -104,11 +105,7 @@ const MyHeader = () => {
         >
           <Link onClick={(e) => e.preventDefault()}>
             <Space>
-              <img
-                src={tcn}
-                alt='Avatar User'
-                className='navbar_user_img'
-              />
+              <img src={tcn} alt="Avatar User" className="navbar_user_img" />
             </Space>
           </Link>
         </Dropdown>

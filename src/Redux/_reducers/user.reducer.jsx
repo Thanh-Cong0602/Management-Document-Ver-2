@@ -5,8 +5,9 @@ const initialState = {
   isLoggedIn: false,
   dataUser: {
     email: "",
-    role: ""
+    role: "",
   },
+  id: "",
 };
 
 export function userReducer(state = initialState, action) {
@@ -20,6 +21,11 @@ export function userReducer(state = initialState, action) {
       return {
         ...state,
         isLoggedIn: action.payload,
+      };
+    case userConstants.SET_ID_USER:
+      return {
+        ...state,
+        id: action.payload,
       };
     default:
       return state;
