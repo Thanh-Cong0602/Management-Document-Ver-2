@@ -20,3 +20,7 @@ export function getAllUsers(endpoint) {
 export function updateUser(endpoint, body) {
   return API.put(`${API_BASE.apiUrl}/${endpoint}`, body);
 }
+
+export function updateRole(endpoint) {
+  return API.put(`${API_BASE.apiUrl}/${endpoint}`);
+}
