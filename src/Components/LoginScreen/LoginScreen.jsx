@@ -4,7 +4,11 @@ import { Button, Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Api/Service/user.service";
-import { setDataUser, setLoggedIn } from "../../Redux/_action/user.action";
+import {
+  setDataUser,
+  setLoggedIn,
+  setIdUser,
+} from "../../Redux/_action/user.action";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
@@ -21,10 +25,14 @@ function LoginScreen() {
       .then((res) => {
         const dataUser = {
           email: res.data.email,
-          role: res.data.permission.role
-        }
+          role: res.data.permission.role,
+        };
+        const id = {
+          idUser: res.data.id,
+        };
         dispatch(setLoggedIn(true));
         dispatch(setDataUser(dataUser));
+        dispatch(setIdUser(id));
         navigate("/");
       })
       .catch((err) => {
@@ -48,7 +56,11 @@ function LoginScreen() {
           borderRadius: "10px",
         }}
       >
-        <div style={{ fontSize: "40px", fontWeight: "bold", textAlign: 'center' }}>Login</div>
+        <div
+          style={{ fontSize: "40px", fontWeight: "bold", textAlign: "center" }}
+        >
+          Login
+        </div>
         <Form
           name="basic"
           labelCol={{

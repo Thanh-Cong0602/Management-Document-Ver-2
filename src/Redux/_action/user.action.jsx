@@ -15,3 +15,10 @@ export const setLoggedIn = (loggedIn) => {
     payload: loggedIn,
   };
 };
+
+export const setIdUser = (idUser) => {
+  return {
+    type: userConstants.SET_ID_USER,
+    payload: idUser,
+  };
+};

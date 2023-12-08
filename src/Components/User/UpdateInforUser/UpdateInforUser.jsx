@@ -1,11 +1,13 @@
 /** @format */
 
 // eslint-disable-next-line no-unused-vars
-import react,  { useState, useEffect } from "react";
+import react, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { Button, Form, Input, DatePicker, Select, Modal } from "antd";
 import { useSelector } from "react-redux";
 import { getUser, updateUser } from "../../../Api/Service/user.service";
+
+import "./UpdateInforUser.css";
 
 function UpdateInforUser() {
   const [form] = Form.useForm();
@@ -16,9 +18,8 @@ function UpdateInforUser() {
   const [infoForm, setInfoForm] = useState({});
   const [originInfoForm, setOriginInfoForm] = useState({});
   const dataUser = useSelector((state) => state.userReducer.dataUser);
-  console.log(dataUser);
   const getInformation = () => {
-    getUser(`user/${dataUser}`)
+    getUser(`user/${dataUser.email}`)
       .then((res) => {
         setInfoForm({
           id: res.data.id,
@@ -130,23 +131,23 @@ function UpdateInforUser() {
       onValuesChange={onFormLayoutChange}
       style={{
         maxWidth: formLayout === "inline" ? "none" : 600,
+        padding: "40px 20px 20px 20px",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+        margin: "0 auto",
+        minHeight: "calc(100vh - 60px)",
       }}
     >
       <div
         style={{
           display: "flex",
           marginBottom: "16px",
-          justifyContent: "space-between",
+          justifyContent: "center",
         }}
       >
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>Thông tin cá nhân</div>
-        {!isUpdating && (
-          <Button type="primary" onClick={() => setIsUpdating(true)}>
-            Cập nhật
-          </Button>
-        )}
+        <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+          Thông tin cá nhân
+        </div>
       </div>
-
       <Form.Item label="Họ tên">
         <Input
           placeholder=""
@@ -202,6 +203,7 @@ function UpdateInforUser() {
             defaultValue={dayjs(infoForm.dob, "YYYY-MM-DD")}
             format="YYYY-MM-DD"
             style={{ width: "100%" }}
+            className="datePickerStyle"
             onChange={handleChangeDob}
           />
         )}
@@ -244,25 +246,46 @@ function UpdateInforUser() {
                 });
               }
             }}
+            className="datePickerStyle"
           />
         )}
       </Form.Item>
+      {!isUpdating && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "35px",
+          }}
+        >
+          <Button type="primary" onClick={() => setIsUpdating(true)}>
+            Cập nhật thông tin
+          </Button>
+        </div>
+      )}
       {isUpdating && (
-        <Form.Item {...buttonItemLayout}>
-          <Button
-            type="primary"
-            style={{ marginRight: "16px" }}
-            onClick={() => {
-              handleUpdate();
-              console.log(infoForm);
-            }}
-          >
-            Cập nhật
-          </Button>
-          <Button type="primary" ghost onClick={() => handleCancel()}>
-            Hủy bỏ
-          </Button>
-        </Form.Item>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "35px",
+          }}
+        >
+          <Form.Item {...buttonItemLayout}>
+            <Button
+              type="primary"
+              style={{ marginRight: "16px" }}
+              onClick={() => {
+                handleUpdate();
+              }}
+            >
+              Cập nhật
+            </Button>
+            <Button type="primary" ghost onClick={() => handleCancel()}>
+              Hủy bỏ
+            </Button>
+          </Form.Item>
+        </div>
       )}
 
       <Modal
