@@ -1,12 +1,13 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, RetweetOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../../Api/Service/user.service";
+import { getAllUsers, updateRole } from "../../../Api/Service/user.service";
+
 const columns = [
   {
     title: "STT",
-    dataIndex: "id",
-    key: "id",
+    dataIndex: "stt",
+    key: "stt",
   },
   {
     title: "Tên",
@@ -17,11 +18,7 @@ const columns = [
     title: "Vai trò",
     dataIndex: "role",
     key: "role",
-    render : (record) => (
-      <div>
-        {record.role}
-      </div>
-    )
+    render: (record) => <div>{record.role}</div>,
   },
   {
     title: "Email",
@@ -32,11 +29,7 @@ const columns = [
     title: "Giới tính",
     dataIndex: "gender",
     key: "gender",
-    render : (text) => (
-      <div>
-        {text ? "Nam" : "Nữ"}
-      </div>
-    )
+    render: (text) => <div>{text ? "Nam" : "Nữ"}</div>,
   },
   {
     title: "Ngày sinh",
@@ -46,44 +39,56 @@ const columns = [
   {
     title: "Điện thoại",
     dataIndex: "phone",
-    key: "phone"
+    key: "phone",
   },
   {
     title: "Action",
     dataIndex: "action",
     key: "action",
-    render: (record) => (
-      <div
-        type="button"
-        style={{ color: "red" }}
-        //onClick={() => {
-        //  axios.delete(`http://localhost/user/${record.id}`).then(() => {
-        //    window.location.reload();
-        //  });
-        //}}
-      >
-        <DeleteOutlined />
+    render: (_, record) => (
+      <div style={{ display: "Flex" }}>
+        <div
+          type="button"
+          style={{ color: "red" }}
+          //onClick={() => {
+          //  axios.delete(`http://localhost/user/${record.id}`).then(() => {
+          //    window.location.reload();
+          //  });
+          //}}
+        >
+          <DeleteOutlined />
+        </div>
+        <div
+          type="button"
+          style={{ color: "green", marginLeft: "30%" }}
+          onClick={() => {
+            updateRole(
+              `user/${record.id}/role?role=${
+                record.role.role === "user" ? "admin" : "user"
+              }`
+            ).then();
+          }}>
+          <RetweetOutlined />
+        </div>
       </div>
     ),
   },
 ];
 
-
 const ManageAccount = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-   getAllUsers("user").then((res) => {
-      console.log(res.data.content)
+    getAllUsers("user").then((res) => {
       const resData = res.data.content.map((item, key) => {
         return {
           ...item,
-          id: key + 1,
+          stt: key + 1,
         };
       });
       setData(resData);
-      console.log(resData);
+      // console.log(resData);
     });
-  }, []);
+  }, [data]);
   return (
     <div>
       <Table
