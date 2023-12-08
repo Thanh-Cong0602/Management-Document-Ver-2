@@ -1,1 +1,1 @@
-export const localhost = "http://localhost";
+export const localhost = "http://localhost:500";
