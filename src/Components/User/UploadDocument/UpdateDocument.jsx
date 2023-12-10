@@ -73,7 +73,6 @@ function UpdateDocument({id , handleUpdate}) {
       })
       .catch(err => {
         error("Failed")
-        console.log(err);
       })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isSuccess])
@@ -240,7 +239,6 @@ function UpdateDocument({id , handleUpdate}) {
       })
       .catch((err) => {
         error("Uploading failed!");
-        console.log(err);
       });
   };
   

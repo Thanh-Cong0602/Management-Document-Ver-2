@@ -32,7 +32,6 @@ function ManageDocument() {
     setOpenModal(false);
   };
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setOpenModal(false);
   };
   const handleDetails = (id, version) => {
@@ -46,7 +45,6 @@ function ManageDocument() {
     setIsUpdated(false);
     getDocument(`document?pageNo=${pageNo}&pageSize=10`)
     .then(res => {
-      console.log(res.data)
       setDocuments(res.data.content); 
       setPageCount(res.data.totalPages);
     });
@@ -91,7 +89,6 @@ function ManageDocument() {
 
 }
  const handlePageClick = (event) => {
-  console.log("even lib: ", event)
   setPageNo(+event.selected)
  }
   return (

@@ -22,7 +22,6 @@ function RegisterScreen() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log(values)
     const isValidTel = /\D/;
     const isValidSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/;
     if (values.password !== values.confirmPassword) {
@@ -57,8 +56,6 @@ function RegisterScreen() {
     };
     register("user/register", body)
       .then(() => {
-        console.log("Success");
-        console.log(body);
         messageApi.open({
           type: "success",
           content: "Register account successfully",

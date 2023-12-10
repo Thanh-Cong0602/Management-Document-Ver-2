@@ -182,8 +182,7 @@ function UploadDocument() {
     })
     .catch(err => {
       error()
-      
-      console.log(err)})
+    )
   };
   
   return (

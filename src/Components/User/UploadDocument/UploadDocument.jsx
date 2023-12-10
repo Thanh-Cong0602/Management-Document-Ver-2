@@ -91,7 +91,6 @@ function UploadDocument() {
   }
   
   const handleInputBlur = (identifier, value) => {
-    console.log(identifier, value)
     validate(identifier, value)
   }
 
@@ -177,11 +176,8 @@ function UploadDocument() {
       })
       .catch((err) => {
         error("Uploading failed!");
-        console.log(err);
       });
   };
-
-  console.log(isValid)
 
   return (
     <Fragment>

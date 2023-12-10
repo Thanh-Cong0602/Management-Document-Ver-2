@@ -88,7 +88,6 @@ const ManageAccount = () => {
         };
       });
       setData(resData);
-      // console.log(resData);
     });
   }, [isLoading]);
   return (
