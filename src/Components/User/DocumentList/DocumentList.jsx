@@ -1,17 +1,19 @@
+import { Modal } from "antd";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from "react";
-import { Modal, message } from "antd";
+
+
 import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
 import { getDocument } from "../../../Api/Service/document.service";
-import UpdateDocument from "../../User/UploadDocument/UpdateDocument";
-import { deleteDoc } from '../../../Api/Service/doc.service';
+import UpdateDocument from "../UploadDocument/UpdateDocument";
 
 
 
-function ManageDocument() {
-  const [messageApi, contextHolder] = message.useMessage();
+
+function DocumentList() {
+
   const [documents, setDocuments] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [pageNo, setPageNo] = useState(0);
@@ -36,7 +38,7 @@ function ManageDocument() {
     setOpenModal(false);
   };
   const handleDetails = (id, version) => {
-    getDocument(`document/${id}/${version || 'latest'}`)
+    getDocument(`document/${id}/${version ? version : 'latest'}`)
     .then((res) => {
       window.open(res.data.documentVersion.url, '__blank');
     })
@@ -46,7 +48,6 @@ function ManageDocument() {
     setIsUpdated(false);
     getDocument(`document?pageNo=${pageNo}&pageSize=10`)
     .then(res => {
-      console.log(res.data)
       setDocuments(res.data.content); 
       setPageCount(res.data.totalPages);
     });
@@ -56,8 +57,6 @@ function ManageDocument() {
 
 
   // useEffect(() => {
-
-  
   //   axios.delete(`document/${deleteDoc}`)
   //   .then((res) => {
   //     if(res.status == 200){
@@ -67,37 +66,14 @@ function ManageDocument() {
   //     else alert("Not Successfull");
   //   })
   // }, [deleteDoc]);
-  const handleDeleteDocument = (id) => {
-    const informationAdmin = {
-        id: 2,
-        name: "Tuan Kiet Update",
-        password: "091002",
-        phone: "0963987948",
-        dob: "09/10/2002",
-        role: "role",
-        gender: "true"
-    }
-      deleteDoc(`${id}`,informationAdmin).then(() => {
-        messageApi.open({
-          type: "success",
-          content: "Delete Document successfully!!!",
-        });
-      }).catch(() => {
-         messageApi.open({
-          type: "error",
-          content: "Something error!!!",
-        });
-      })
 
-}
  const handlePageClick = (event) => {
   console.log("even lib: ", event)
   setPageNo(+event.selected)
  }
   return (
     <div>
-    {contextHolder}
-    <div className="ManageDocument" style={{margin : 'auto', marginBlock: 'center'}}>
+    <div className="documentlist" style={{margin : 'auto', marginBlock: 'center'}}>
     <Table striped bordered hover style={{textAlign: 'center'}}>
       <thead>
         <tr>
@@ -124,10 +100,6 @@ function ManageDocument() {
               >
                 Update
               </Button>
-              <Button size="sm" style={{marginLeft: '12px', backgroundColor: 'red', color: 'black'}}  
-                onClick={() => handleDeleteDocument(document.id)}>
-                Delete
-              </Button>
             </td>
           </tr>
         ))}
@@ -153,40 +125,40 @@ function ManageDocument() {
 
         renderOnZeroPageCount={null}
       />
-    </div>
-    <Modal
-          title= {
-          <div style={
-          { textAlign: 'center',
-            fontSize: 24,
-            fontWeight: 600,
-            color: '#199cff',
-            fontFamily: 'Poppins'
-          }
-            
-          }>
-            Update your document
-            
-          </div>
-        
-          }
-          open={openModal}
-          footer={null}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          style= {{
-            top:20,
-          }}
-          styles={{
-            content: {width: 700},
-            title: {fontSize: 50}
+  </div>
+  <Modal
+        title= {
+        <div style={
+         { textAlign: 'center',
+          fontSize: 24,
+          fontWeight: 600,
+          color: '#199cff',
+          fontFamily: 'Poppins'
+        }
           
-          }}
-        >
-        <UpdateDocument id={id} handleUpdate = {handleOk}/>
-    </Modal>
+        }>
+          Update your document
+          
+        </div>
+      
+        }
+        open={openModal}
+        footer={null}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        style= {{
+          top:20,
+        }}
+        styles={{
+          content: {width: 700},
+          title: {fontSize: 50}
+        
+        }}
+      >
+       <UpdateDocument id={id} handleUpdate = {handleOk}/>
+      </Modal>
   </div>
   );
 }
 
-export default ManageDocument
+export default DocumentList
