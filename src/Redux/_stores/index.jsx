@@ -7,7 +7,7 @@ import rootReducer from "../_reducers";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 const persistConfig = {
-  key: "root",
+  key: "manageDocument",
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);

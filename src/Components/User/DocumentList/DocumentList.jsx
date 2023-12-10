@@ -1,76 +1,62 @@
+
 import { Modal } from "antd";
+import UpdateDocument from "../UploadDocument/UpdateDocument";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from "react";
-
-
 import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
+import { format } from 'date-fns';
 import { getDocument } from "../../../Api/Service/document.service";
-import UpdateDocument from "../UploadDocument/UpdateDocument";
-
-
-
 
 function DocumentList() {
-
-  const [documents, setDocuments] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [pageNo, setPageNo] = useState(0);
-  const [id, setId] = useState();
-  const [version, setVersion] = useState();
   const [isUpdated, setIsUpdated] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
+  const [pageNo, setPageNo] = useState(0);
+  const [documents, setDocuments] = useState([]);
+  const [id, setId] = useState();
+  const [version, setVersion] = useState();
+  
   const handleUpdate = (id, version) => {
     setId(id)
     setVersion(version)
     setOpenModal(true);
-
   };
- 
 
   const handleOk = (isUpdated) => {
     setIsUpdated(isUpdated)
     setOpenModal(false);
   };
+
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setOpenModal(false);
   };
+
   const handleDetails = (id, version) => {
-    getDocument(`document/${id}/${version ? version : 'latest'}`)
+    getDocument(`document/${id}/${version || 'latest'}`)
     .then((res) => {
       window.open(res.data.documentVersion.url, '__blank');
     })
   }
 
+  const handlePageClick = (event) => {
+    console.log("even lib: ", event)
+    setPageNo(+event.selected)
+  }
+
   useEffect(() => {
-    setIsUpdated(false);
-    getDocument(`document?pageNo=${pageNo}&pageSize=10`)
-    .then(res => {
-      setDocuments(res.data.content); 
+    const fetchData = async () => {
+      setIsUpdated(false);
+      const res = await getDocument(`document?pageNo=${pageNo}&pageSize=10`);
+      setDocuments(res.data.content);
       setPageCount(res.data.totalPages);
-    });
-  }, [pageNo, isUpdated]);   
+    };
 
+    fetchData();
+  }, [pageNo, isUpdated]);
 
-
-
-  // useEffect(() => {
-  //   axios.delete(`document/${deleteDoc}`)
-  //   .then((res) => {
-  //     if(res.status == 200){
-  //       alert("Deleted successfull!");
-  //       window.location.reload();
-  //     }
-  //     else alert("Not Successfull");
-  //   })
-  // }, [deleteDoc]);
-
- const handlePageClick = (event) => {
-  console.log("even lib: ", event)
-  setPageNo(+event.selected)
- }
   return (
     <div>
     <div className="documentlist" style={{margin : 'auto', marginBlock: 'center'}}>
@@ -90,7 +76,7 @@ function DocumentList() {
             <td>{document.name}</td>
             <td>{document.description}</td>
             <td>{document.lastVersion}</td>
-            <td>{document.lastModified}</td>
+            <td>{format(new Date(document.lastModified), 'dd/MM/yyyy')}</td>
             <td><Button size="sm" style={{marginLeft: '12px'}} variant="success" onClick={() => handleDetails(document.id, document.lastVersion)}>View</Button>
             <Button
                 size="sm"

@@ -17,8 +17,6 @@ function App() {
   const navigate = useNavigate();
   const role = useSelector((state) => state.userReducer.dataUser.role);
   const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
-  console.log(role);
-  console.log(isLoggedIn);
   useEffect(() => {
     if (isLoggedIn === false || isLoggedIn === null) {
       navigate("/homepage");
