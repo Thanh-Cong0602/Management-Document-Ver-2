@@ -22,7 +22,7 @@ function RegisterScreen() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log(values)
+    // console.log(values);
     const isValidTel = /\D/;
     const isValidSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/;
     if (values.password !== values.confirmPassword) {
@@ -39,7 +39,11 @@ function RegisterScreen() {
       });
       return;
     }
-    if (isValidTel.test(values.phone) || values.phone.length > 10 || values.phone.length <= 9) {
+    if (
+      isValidTel.test(values.phone) ||
+      values.phone.length > 10 ||
+      values.phone.length <= 9
+    ) {
       messageApi.open({
         type: "error",
         content: "Invalid phone number",
@@ -68,6 +72,7 @@ function RegisterScreen() {
         }, 1000);
       })
       .catch((err) => {
+        console.log(err);
         const message = err.response.data.message;
         messageApi.open({
           type: "error",
@@ -86,9 +91,9 @@ function RegisterScreen() {
     <>
       {contextHolder}
       <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <p className="title">Register Account</p>
+        <p className='title'>Register Account</p>
         <Form
-          name="basic"
+          name='basic'
           labelCol={{
             span: 6,
           }}
@@ -105,74 +110,71 @@ function RegisterScreen() {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete='off'>
           <Form.Item
-            label="Email"
-            name="email"
+            label='Email'
+            name='email'
             rules={[
               {
                 required: true,
                 message: "Please input your email!",
               },
-            ]}
-          >
-            <Input placeholder="Enter your email" type="email" />
+            ]}>
+            <Input placeholder='Enter your email' type='email' />
           </Form.Item>
 
           <Form.Item
-            label="Password"
-            name="password"
+            label='Password'
+            name='password'
             rules={[
               {
                 required: true,
                 message: "Please input your password!",
               },
-            ]}
-          >
-            <Input.Password placeholder="Enter your password" />
+            ]}>
+            <Input.Password placeholder='Enter your password' />
           </Form.Item>
 
           <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
+            label='Confirm Password'
+            name='confirmPassword'
             rules={[
               {
                 required: true,
                 message: "Please input your confirm password!",
               },
-            ]}
-          >
-            <Input.Password placeholder="Enter your confirm password" />
+            ]}>
+            <Input.Password placeholder='Enter your confirm password' />
           </Form.Item>
 
           <Form.Item
-            label="Fullname"
-            name="name"
+            label='Fullname'
+            name='name'
             rules={[
               {
                 required: true,
                 message: "Please input fullname!",
               },
-            ]}
-          >
-            <Input placeholder="Enter fullName" />
+            ]}>
+            <Input placeholder='Enter fullName' />
           </Form.Item>
 
-          <Form.Item name="date-picker" label="DateOfBirth" {...config}>
-            <DatePicker style={{ width: "350px" }} disabledDate={disabledDate} />
+          <Form.Item name='date-picker' label='DateOfBirth' {...config}>
+            <DatePicker
+              style={{ width: "350px" }}
+              disabledDate={disabledDate}
+            />
           </Form.Item>
 
           <Form.Item
-            name="phone"
-            label="Phone Number"
+            name='phone'
+            label='Phone Number'
             rules={[
               {
                 required: true,
                 message: "Please input your phone number!",
               },
-            ]}
-          >
+            ]}>
             <Input
               addonBefore={"+84"}
               style={{
@@ -182,28 +184,31 @@ function RegisterScreen() {
           </Form.Item>
 
           <Form.Item
-            name="gender"
-            label="Gender"
+            name='gender'
+            label='Gender'
             hasFeedback
             rules={[
               {
                 required: true,
                 message: "Please select your gender!",
               },
-            ]}
-          >
-            <Select placeholder="Please select gender">
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
+            ]}>
+            <Select placeholder='Please select gender'>
+              <Option value='male'>Male</Option>
+              <Option value='female'>Female</Option>
             </Select>
           </Form.Item>
 
-      
           <div style={{ textAlign: "center" }}>
-            Do you have already account? <Link to="/login">Login Here</Link>
+            Do you have already account? <Link to='/login'>Login Here</Link>
           </div>
-          <Form.Item style={{ textAlign: "center", paddingTop: "20px", paddingLeft: "150px" }}>
-            <Button type="primary" htmlType="submit" size="large">
+          <Form.Item
+            style={{
+              textAlign: "center",
+              paddingTop: "20px",
+              paddingLeft: "150px",
+            }}>
+            <Button type='primary' htmlType='submit' size='large'>
               Register
             </Button>
           </Form.Item>
